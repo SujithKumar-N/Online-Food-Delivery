@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jsp.food.delivery.dto.Customer;
 import com.jsp.food.delivery.service.CustomerService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -21,15 +22,15 @@ public class CustomerController {
 
     @Autowired
     CustomerService customerService;
-    
+
     @GetMapping("/register")
     public String loadRegister(Customer customer, ModelMap map) {
         return customerService.register(customer, map);
     }
 
     @PostMapping("/register")
-    public String register(@Valid Customer customer, BindingResult result, ModelMap map) {
-        return customerService.register(customer,result, map);
+    public String register(@Valid Customer customer, BindingResult result, HttpSession session) {
+        return customerService.register(customer, result, session);
     }
 
     @GetMapping("/otp/{id}")
@@ -39,13 +40,13 @@ public class CustomerController {
     }
 
     @PostMapping("/otp")
-    public String otp(@RequestParam("otp") int otp, @RequestParam("id") int id) {
-        return customerService.otp(id, otp);
+    public String otp(@RequestParam("otp") int otp, @RequestParam("id") int id, HttpSession session) {
+        return customerService.otp(id, otp, session);
     }
 
     @GetMapping("/resend-otp/{id}")
-	public String resendOtp(@PathVariable("id") int id) {
-		return customerService.resendOtp(id);
-	}
-    
+    public String resendOtp(@PathVariable("id") int id, HttpSession session) {
+        return customerService.resendOtp(id, session);
+    }
+
 }

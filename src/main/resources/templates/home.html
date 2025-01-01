@@ -14,7 +14,7 @@
     }
 
     .header {
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
         background-size: cover;
         background-position: center;
         height: 100vh;
@@ -28,7 +28,7 @@
         align-items: center;
         position: fixed;
         width: 100%;
-        background: rgba(0,0,0,0.1);
+        background: rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
     }
 
@@ -60,7 +60,8 @@
         margin-left: 30px;
     }
 
-    .login-btn, .register-btn {
+    .login-btn,
+    .register-btn {
         padding: 8px 20px;
         border-radius: 20px;
         cursor: pointer;
@@ -80,10 +81,28 @@
         color: white;
     }
 
-    .login-btn:hover, .register-btn:hover {
+    .login-btn:hover,
+    .register-btn:hover {
         transform: scale(1.05);
         background: #ff6b81;
         border-color: #ff6b81;
+    }
+
+    .message {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        display: none;
+    }
+
+    .message:not(:empty) {
+        display: block;
     }
 
     .hero {
@@ -138,7 +157,7 @@
         padding: 30px;
         border-radius: 10px;
         background: white;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         transition: 0.3s;
     }
 
@@ -183,7 +202,7 @@
             top: 70px;
             left: 0;
             right: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0, 0, 0, 0.9);
             flex-direction: column;
             padding: 20px;
             gap: 20px;
@@ -232,6 +251,7 @@
             opacity: 0;
             transform: translateY(-20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -243,6 +263,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -254,18 +275,23 @@
             transform: scale(0.3);
             opacity: 0;
         }
+
         50% {
             transform: scale(1.05);
         }
+
         70% {
             transform: scale(0.9);
         }
+
         100% {
             transform: scale(1);
             opacity: 1;
         }
     }
-</style></head>
+</style>
+</head>
+
 <body>
     <header class="header">
         <nav>
@@ -283,6 +309,13 @@
                 </div>
             </div>
         </nav>
+
+        <div class="message" th:if="${session.success != null or session.error != null}">
+            <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
+            <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
+            <th:block th:text="${@messageRemover.remove()}"></th:block>
+        </div>
+
         <div class="hero">
             <h1>Delicious Food Delivered</h1>
             <p>Order your favorite meals from the best restaurants in your area</p>
@@ -313,13 +346,14 @@
         </div>
     </section>
 
-    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
     <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const message = document.querySelector('.message');
+            if (message && message.style.display !== 'none') {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 1500);
+            }
         });
     </script>
 </body>

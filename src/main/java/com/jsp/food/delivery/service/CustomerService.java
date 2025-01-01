@@ -13,6 +13,8 @@ import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
 import com.jsp.food.delivery.repository.RestaurantRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class CustomerService {
 
@@ -25,65 +27,68 @@ public class CustomerService {
     @Autowired
     MyEmailSender emailSender;
 
-
-
     public String register(Customer customer, ModelMap map) {
         map.put("customer", customer);
         return "customer-register";
     }
 
-    public String register(Customer customer, BindingResult result, ModelMap map) {
-        
-        if(!customer.getPassword().equals(customer.getConfirmPassword())){
-            result.rejectValue("confirmPassword", "error.confirmPassword", "Password and Confirm Password must be same");
+    public String register(Customer customer, BindingResult result, HttpSession session) {
+
+        if (!customer.getPassword().equals(customer.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "error.confirmPassword",
+                    "Password and Confirm Password must be same");
         }
 
-        // if(customerRepository.existsByEmail(customer.getEmail())
-        //         || restaurantRepository.existsByEmail(customer.getEmail())){
-        //     result.rejectValue("email", "error.email", "Email already exists"); 
+        if (customerRepository.existsByEmail(customer.getEmail())
+                || restaurantRepository.existsByEmail(customer.getEmail())) {
+            result.rejectValue("email", "error.email", "Email already exists");
 
-        // }
+        }
 
-        // if(customerRepository.existsByMobile(customer.getMobile())
-        //     || restaurantRepository.existsByMobile(customer.getMobile())){
-        //     result.rejectValue("mobile", "error.mobile", "Mobile already exists");
-        // }
-        
-        if(result.hasErrors()){
+        if (customerRepository.existsByMobile(customer.getMobile())
+                || restaurantRepository.existsByMobile(customer.getMobile())) {
+            result.rejectValue("mobile", "error.mobile", "Mobile already exists");
+        }
+
+        if (result.hasErrors()) {
             return "customer-register";
         } else {
-            customer.setOtp(new Random().nextInt(1000,9999));
+            customer.setOtp(new Random().nextInt(1000, 9999));
             customer.setVerified(false);
             customer.setRegistrationDate(LocalDateTime.now());
             customerRepository.save(customer);
             System.err.println(customer.getOtp());
-            // emailSender.sendOtp(customer);
-            return "redirect:/customer/otp/"+customer.getId();
+            emailSender.sendOtp(customer);
+            session.setAttribute("success", "OTP has been sent to your email");
+            return "redirect:/customer/otp/" + customer.getId();
 
         }
     }
 
-    public String otp(int id, int otp) {
+    public String otp(int id, int otp, HttpSession session) {
         Customer customer = customerRepository.findById(id).orElseThrow();
-        if(customer.getOtp() == otp) {
+        if (customer.getOtp() == otp) {
             customer.setVerified(true);
             customer.setRegistrationDate(LocalDateTime.now());
             customerRepository.save(customer);
+            session.setAttribute("success", "Registration Successful");
             return "redirect:/";
         } else {
-            return "redirect:/customer/otp/"+customer.getId();
+            session.setAttribute("error", "Invalid OTP");
+            return "redirect:/customer/otp/" + customer.getId();
         }
     }
 
-    public String resendOtp(int id) {
+    public String resendOtp(int id, HttpSession session) {
         Customer customer = customerRepository.findById(id).orElseThrow();
-        customer.setOtp(new Random().nextInt(1000,9999));
+        customer.setOtp(new Random().nextInt(1000, 9999));
         customer.setVerified(false);
         customer.setRegistrationDate(LocalDateTime.now());
         customerRepository.save(customer);
         System.err.println(customer.getOtp());
-        // emailSender.sendOtp(customer);
-        return "redirect:/customer/otp/"+customer.getId();
+        emailSender.sendOtp(customer);
+        session.setAttribute("success", "OTP has been re-sent to your email");
+        return "redirect:/customer/otp/" + customer.getId();
     }
-    
+
 }
