@@ -61,7 +61,6 @@ public class CustomerService {
             emailSender.sendOtp(customer);
             session.setAttribute("success", "OTP has been sent to your email");
             return "redirect:/customer/otp/" + customer.getId();
-
         }
     }
 

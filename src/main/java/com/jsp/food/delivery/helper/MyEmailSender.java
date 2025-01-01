@@ -8,6 +8,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.jsp.food.delivery.dto.Customer;
+import com.jsp.food.delivery.dto.Restaurant;
 
 import jakarta.mail.internet.MimeMessage;
 
@@ -29,7 +30,7 @@ public class MyEmailSender {
 			helper.setSubject("Otp for Creating Account with Us");
 
 			Context context = new Context();
-			context.setVariable("customer", customer);
+			context.setVariable("x", customer);
 
 			helper.setText(templateEngine.process("otp-mail.html", context), true);
 		} catch (Exception e) {
@@ -37,6 +38,24 @@ public class MyEmailSender {
 		}
 		mailSender.send(message);
 
+	}
+
+	public void sendOtp(Restaurant restaurant) {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		try {
+			helper.setFrom("sujithkumar762002@gmail.com", "Food Delivery App");
+			helper.setTo(restaurant.getEmail());
+			helper.setSubject("Otp for Creating Account with Us");
+
+			Context context = new Context();
+			context.setVariable("x", restaurant);
+
+			helper.setText(templateEngine.process("otp-mail.html", context), true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mailSender.send(message);
 	}
 
 }

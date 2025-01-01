@@ -117,11 +117,11 @@
           </div>
           <h2>Email Verification</h2>
           <div class="otp-message">
-              <p>Dear <span th:text="${customer.name}"></span>,</p>
+              <p>Dear <span th:text="${x.name}"></span>,</p>
               <p>Welcome to FoodieExpress! To ensure the security of your account, please use the verification code below:</p>
           </div>
           <div class="otp-code">
-              <span th:text="${customer.otp}"></span>
+              <span th:text="${x.otp}"></span>
           </div>
           <div class="note">
               <p>For your security, please do not share this code with anyone.</p>
