@@ -1,0 +1,136 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>OTP Verification - FoodieExpress</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <style>
+          * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+              font-family: 'Poppins', sans-serif;
+          }
+          
+          body {
+              background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+              background-size: cover;
+              background-position: center;
+              background-attachment: fixed;
+              min-height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 20px;
+          }
+
+          .otp-container {
+              background: rgba(255, 255, 255, 0.8);
+              padding: 20px;
+              border-radius: 15px;
+              box-shadow: 0 0 20px rgba(0,0,0,0.2);
+              width: 100%;
+              max-width: 500px;
+              animation: fadeInDown 1s ease;
+          }
+
+          .otp-container h2 {
+              text-align: center;
+              color: #2d3436;
+              margin-bottom: 15px;
+              font-size: 1.8rem;
+          }
+
+          .otp-message {
+              text-align: center;
+              color: #2d3436;
+              margin-bottom: 15px;
+              line-height: 1.6;
+          }
+
+          .otp-code {
+              background: #f1f2f6;
+              padding: 15px;
+              border-radius: 8px;
+              text-align: center;
+              font-size: 24px;
+              font-weight: bold;
+              color: #ff4757;
+              letter-spacing: 5px;
+              margin: 20px 0;
+          }
+
+          .note {
+              text-align: center;
+              color: #636e72;
+              font-size: 0.9rem;
+              margin-top: 20px;
+          }
+
+          .footer {
+              text-align: center;
+              margin-top: 10px;
+              padding-top: 10px;
+              border-top: 1px solid #ddd;
+              color: #636e72;
+              font-size: 0.8rem;
+          }
+
+          .logo {
+              text-align: center;
+              margin-bottom: 20px;
+          }
+
+          .logo span {
+              color: #ff4757;
+              font-size: 1.5rem;
+              font-weight: bold;
+          }
+
+          @keyframes fadeInDown {
+              from {
+                  opacity: 0;
+                  transform: translateY(-20px);
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0);
+              }
+          }
+
+          @media screen and (max-width: 480px) {
+              .otp-container {
+                  padding: 10px;
+              }
+
+              .otp-container h2 {
+                  font-size: 1.3rem;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <div class="otp-container">
+          <div class="logo">
+              <span>FoodieExpress</span>
+          </div>
+          <h2>Email Verification</h2>
+          <div class="otp-message">
+              <p>Dear <span th:text="${customer.name}"></span>,</p>
+              <p>Welcome to FoodieExpress! To ensure the security of your account, please use the verification code below:</p>
+          </div>
+          <div class="otp-code">
+              <span th:text="${customer.otp}"></span>
+          </div>
+          <div class="note">
+              <p>For your security, please do not share this code with anyone.</p>
+              <p>Get ready to explore amazing food experiences with FoodieExpress!</p>
+          </div>
+          <div class="footer">
+              <p>© 2024 FoodieExpress. All rights reserved.</p>
+              <p>Questions? Contact our support team at support@foodieexpress.com</p>
+          </div>
+      </div>
+  </body>
+  </html>

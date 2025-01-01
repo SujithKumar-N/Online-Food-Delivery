@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us - FoodieExpress</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .header {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1484659619207-9165d119dafe?auto=format&fit=crop&w=1920');
+        background-size: cover;
+        background-position: center;
+        height: 50vh;
+        color: white;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 50px;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        background: rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ff4757;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #ff4757;
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 15px;
+        margin-left: 30px;
+    }
+
+    .login-btn, .register-btn {
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        background: transparent;
+        border: 2px solid #ff4757;
+        color: white;
+    }
+
+    .register-btn {
+        background: #ff4757;
+        border: 2px solid #ff4757;
+        color: white;
+    }
+
+    .login-btn:hover, .register-btn:hover {
+        transform: scale(1.05);
+        background: #ff6b81;
+        border-color: #ff6b81;
+    }
+
+    .contact-section {
+        padding: 80px 50px;
+        background: #f8f9fa;
+    }
+
+    .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+    }
+
+    .contact-info {
+        padding: 30px;
+    }
+
+    .contact-info h2 {
+        color: #2d3436;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+    }
+
+    .contact-info p {
+        color: #636e72;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .contact-details {
+        margin-top: 30px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .contact-item i {
+        color: #ff4757;
+        font-size: 1.5rem;
+        margin-right: 15px;
+    }
+
+    .contact-form {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2d3436;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #dfe6e9;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        background: #ff4757;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .submit-btn:hover {
+        background: #ff6b81;
+    }
+
+    .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: white;
+    }
+
+    @media screen and (max-width: 768px) {
+        nav {
+            padding: 15px 20px;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .nav-links {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .auth-buttons {
+            margin-left: 0;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .contact-container {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-section {
+            padding: 40px 20px;
+        }
+    }
+</style>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <div class="logo">FoodieExpress</div>
+            <div class="menu-toggle">☰</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="#menu">Menu</a>
+                <a href="#restaurants">Restaurants</a>
+                <a href="/about-us">About</a>
+                <a href="/contact-us">Contact</a>
+                <div class="auth-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="register-btn">Register</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <p>Have questions about our service? Want to partner with us? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Food Street, Cuisine City, FC 12345</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@foodieexpress.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

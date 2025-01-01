@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - FoodieExpress</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1920');
+        background-size: cover;
+        background-position: center;
+        height: 50vh;
+        color: white;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 50px;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ff4757;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #ff4757;
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 15px;
+        margin-left: 30px;
+    }
+
+    .login-btn,
+    .register-btn {
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        background: transparent;
+        border: 2px solid #ff4757;
+        color: white;
+    }
+
+    .register-btn {
+        background: #ff4757;
+        border: 2px solid #ff4757;
+        color: white;
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+        transform: scale(1.05);
+        background: #ff6b81;
+        border-color: #ff6b81;
+    }
+
+    .about-section {
+        padding: 80px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .about-text h2 {
+        font-size: 2.5rem;
+        color: #2d3436;
+        margin-bottom: 30px;
+    }
+
+    .about-text p {
+        color: #636e72;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .about-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .team-section {
+        background: #f8f9fa;
+        padding: 80px 20px;
+    }
+
+    .team-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #2d3436;
+        margin-bottom: 50px;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .team-member {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+    }
+
+    .team-member:hover {
+        transform: translateY(-10px);
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    .team-member h3 {
+        color: #2d3436;
+        margin-bottom: 10px;
+    }
+
+
+
+
+
+    .team-member p {
+        color: #636e72;
+    }
+
+    /* Mobile menu button */
+    .menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 968px) {
+        .about-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .about-text {
+            order: 2;
+        }
+
+        .about-image {
+            order: 1;
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        nav {
+            padding: 20px;
+        }
+
+        .menu-btn {
+            display: block;
+        }
+
+        .nav-links {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            flex-direction: column;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .auth-buttons {
+            margin: 20px 0 0 0;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+        }
+
+        .team-section h2 {
+            font-size: 2rem;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .header {
+            height: 40vh;
+        }
+
+        .about-section,
+        .team-section {
+            padding: 40px 20px;
+        }
+
+        .auth-buttons {
+            flex-direction: column;
+        }
+
+        .login-btn,
+        .register-btn {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <header class="header">
+        <nav>
+            <div class="logo">FoodieExpress</div>
+            <button class="menu-btn">☰</button>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="#menu">Menu</a>
+                <a href="#restaurants">Restaurants</a>
+                <a href="/about-us">About</a>
+                <a href="/contact-us">Contact</a>
+                <div class="auth-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="register-btn">Register</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>FoodieExpress was founded in 2020 with a simple mission: to connect food lovers with their favorite
+                    restaurants and deliver delicious meals right to their doorstep.</p>
+                <p>What started as a small startup has now grown into a trusted food delivery platform, serving
+                    thousands of customers daily across multiple cities. We partner with the best local restaurants to
+                    ensure quality and satisfaction.</p>
+                <p>Our commitment to excellence, quick delivery, and customer satisfaction has made us one of the
+                    leading food delivery services in the region.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600"
+                    alt="Food delivery">
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Team member">
+                <h3>John Doe</h3>
+                <p>Founder & CEO</p>
+            </div>
+            <div class="team-member">
+                <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Team member">
+                <h3>Jane Smith</h3>
+                <p>Operations Manager</p>
+            </div>
+            <div class="team-member">
+                <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Team member">
+                <h3>Mike Johnson</h3>
+                <p>Head of Technology</p>
+            </div>
+            <div class="team-member">
+                <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Team member">
+                <h3>Sarah Wilson</h3>
+                <p>Customer Relations</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+    <script>
+        const menuBtn = document.querySelector('.menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

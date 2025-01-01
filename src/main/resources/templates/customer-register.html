@@ -1,0 +1,193 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Register - FoodieExpress</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <style>
+          * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+              font-family: 'Poppins', sans-serif;
+          }
+
+          body {
+              background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+              background-size: cover;
+              background-position: center;
+              background-attachment: fixed;
+              min-height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 20px;
+          }
+
+          .register-container {
+              background: rgba(255, 255, 255, 0.8);
+              padding: 20px;
+              border-radius: 15px;
+              box-shadow: 0 0 20px rgba(0,0,0,0.2);
+              width: 100%;
+              max-width: 500px;
+              animation: fadeInDown 1s ease;
+          }
+
+          .register-container h2 {
+              text-align: center;
+              color: #2d3436;
+              margin-bottom: 15px;
+              font-size: 1.8rem;
+          }
+
+          .form-group {
+              margin-bottom: 10px;
+          }
+
+          .form-group label {
+              display: block;
+              margin-bottom: 3px;
+              color: #2d3436;
+              font-weight: 500;
+          }
+
+          .form-group input {
+              width: 100%;
+              padding: 6px;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              font-size: 0.9rem;
+              transition: 0.3s;
+          }
+
+          .form-group textarea {
+              width: 100%;
+              padding: 6px;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              font-size: 0.9rem;
+              transition: 0.3s;
+              resize: vertical;
+          }
+
+          .form-group input:focus {
+              border-color: #ff4757;
+              outline: none;
+              box-shadow: 0 0 5px rgba(255, 71, 87, 0.3);
+          }
+
+          .register-btn {
+              width: 100%;
+              padding: 8px;
+              background: #ff4757;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-size: 1rem;
+              cursor: pointer;
+              transition: 0.3s;
+              margin-top: 10px;
+          }
+
+          .register-btn:hover {
+              background: #ff6b81;
+              transform: translateY(-2px);
+          }
+
+          .restaurant-link {
+              text-align: center;
+              margin-top: 10px;
+              padding-top: 10px;
+              border-top: 1px solid #ddd;
+          }
+
+          .restaurant-link p {
+              color: #636e72;
+              margin-bottom: 5px;
+          }
+
+          .restaurant-register-btn {
+              display: inline-block;
+              padding: 6px 12px;
+              background: transparent;
+              border: 2px solid #ff4757;
+              color: #ff4757;
+              border-radius: 8px;
+              text-decoration: none;
+              transition: 0.3s;
+          }
+
+          .restaurant-register-btn:hover {
+              background: #ff4757;
+              color: white;
+          }
+
+          @keyframes fadeInDown {
+              from {
+                  opacity: 0;
+                  transform: translateY(-20px);
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0);
+              }
+          }
+
+          @media screen and (max-width: 480px) {
+              .register-container {
+                  padding: 10px;
+              }
+
+              .register-container h2 {
+                  font-size: 1.3rem;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <div class="register-container">
+          <h2>Create Customer Account</h2>
+          <form action="/customer/register" method="post" th:object="${customer}">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" th:field="*{name}">
+                  <span th:errors="*{name}"></span>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" th:field="*{email}">
+                  <span th:errors="*{email}"></span>
+              </div>
+              <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="text" id="mobile" th:field="*{mobile}">
+                  <span th:errors="*{mobile}"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" rows="3" th:field="*{address}" ></textarea>
+                <span th:errors="*{address}"></span>
+            </div>
+
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" th:field="*{password}">
+                  <span th:errors="*{password}"></span>
+              </div>
+              <div class="form-group">
+                  <label for="confirm-password">Confirm Password</label>
+                  <input type="password" id="confirmPassword"  th:field="*{confirmPassword}">
+                  <span th:errors="*{confirmPassword}"></span>
+              </div>
+              <button type="submit" class="register-btn">Create Account</button>
+          </form>
+          <div class="restaurant-link">
+              <p>Are you a restaurant owner?</p>
+              <a href="/restaurant/register" class="restaurant-register-btn">Register as Restaurant</a>
+          </div>
+      </div>
+  </body>
+  </html>
