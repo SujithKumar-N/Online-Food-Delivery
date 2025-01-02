@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Home</title>
+
+    <style>
+        .message {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .message:not(:empty) {
+            display: block;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="message" th:if="${session.success != null or session.error != null}">
+        <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
+        <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
+        <th:block th:text="${@messageRemover.remove()}"></th:block>
+    </div>
+
+    <h1>Restaurant Home</h1>
+    <a href="/logout">Logout</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const message = document.querySelector('.message');
+            if (message && message.style.display !== 'none') {
+                setTimeout(function () {
+                    message.style.display = 'none';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

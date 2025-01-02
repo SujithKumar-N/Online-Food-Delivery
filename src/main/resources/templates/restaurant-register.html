@@ -27,7 +27,7 @@
 
           .register-container {
               background: rgba(255, 255, 255, 0.8);
-              padding: 15px;
+              padding: 12px;
               border-radius: 15px;
               box-shadow: 0 0 20px rgba(0,0,0,0.2);
               width: 100%;
@@ -38,39 +38,41 @@
           .register-container h2 {
               text-align: center;
               color: #2d3436;
-              margin-bottom: 10px;
-              font-size: 1.8rem;
+              margin-bottom: 8px;
+              font-size: 1.6rem;
           }
 
           .form-group {
-              margin-bottom: 8px;
+              margin-bottom: 6px;
           }
 
           .form-group label {
               display: block;
-              margin-bottom: 2px;
+              margin-bottom: 1px;
               color: #2d3436;
               font-weight: 500;
+              font-size: 0.9rem;
           }
 
           .form-group input {
               width: 100%;
-              padding: 4px 6px;
+              padding: 3px 6px;
               border: 1px solid #ddd;
               border-radius: 8px;
               font-size: 0.9rem;
               transition: 0.3s;
+              height: 30px;
           }
 
           .form-group textarea {
               width: 100%;
-              padding: 4px 6px;
+              padding: 3px 6px;
               border: 1px solid #ddd;
               border-radius: 8px;
               font-size: 0.9rem;
               transition: 0.3s;
               resize: vertical;
-              height: 60px;
+              height: 45px;
           }
 
           .form-group input:focus {
@@ -81,7 +83,7 @@
 
           .register-btn {
               width: 100%;
-              padding: 6px;
+              padding: 5px;
               background: #ff4757;
               color: white;
               border: none;
@@ -89,7 +91,7 @@
               font-size: 1rem;
               cursor: pointer;
               transition: 0.3s;
-              margin-top: 8px;
+              margin-top: 6px;
           }
 
           .register-btn:hover {
@@ -99,25 +101,27 @@
 
           .customer-link {
               text-align: center;
-              margin-top: 8px;
-              padding-top: 8px;
+              margin-top: 6px;
+              padding-top: 6px;
               border-top: 1px solid #ddd;
           }
 
           .customer-link p {
               color: #636e72;
-              margin-bottom: 3px;
+              margin-bottom: 2px;
+              font-size: 0.9rem;
           }
 
           .customer-register-btn {
               display: inline-block;
-              padding: 4px 10px;
+              padding: 3px 8px;
               background: transparent;
               border: 2px solid #ff4757;
               color: #ff4757;
               border-radius: 8px;
               text-decoration: none;
               transition: 0.3s;
+              font-size: 0.9rem;
           }
 
           .customer-register-btn:hover {
@@ -153,37 +157,37 @@
           <form action="/restaurant/register" method="post" th:object="${restaurant}">
               <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" id="name" th:field="*{name}">
+                  <input type="text" id="name" th:field="*{name}" placeholder="Enter your name">
                   <span th:errors="*{name}"></span>
               </div>
               <div class="form-group">
                   <label for="restaurantName">Restaurant Name</label>
-                  <input type="text" id="restaurantName" th:field="*{restaurantName}">
+                  <input type="text" id="restaurantName" th:field="*{restaurantName}" placeholder="Enter restaurant name">
                   <span th:errors="*{restaurantName}"></span>
               </div>
               <div class="form-group">
                   <label for="email">Email Address</label>
-                  <input type="email" id="email" th:field="*{email}">
+                  <input type="email" id="email" th:field="*{email}" placeholder="Enter email address">
                   <span th:errors="*{email}"></span>
               </div>
               <div class="form-group">
                   <label for="mobile">Phone Number</label>
-                  <input type="text" id="mobile" th:field="*{mobile}">
+                  <input type="text" id="mobile" th:field="*{mobile}" placeholder="Enter phone number">
                   <span th:errors="*{mobile}"></span>
               </div>
               <div class="form-group">
                   <label for="address">Restaurant Address</label>
-                  <textarea id="address" rows="3" th:field="*{address}"></textarea>
+                  <textarea id="address" rows="3" th:field="*{address}" placeholder="Enter restaurant address"></textarea>
                   <span th:errors="*{address}"></span>
               </div>
               <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" id="password" th:field="*{password}">
+                  <input type="password" id="password" th:field="*{password}" placeholder="Enter password">
                   <span th:errors="*{password}"></span>
               </div>
               <div class="form-group">
                   <label for="confirmPassword">Confirm Password</label>
-                  <input type="password" id="confirmPassword" th:field="*{confirmPassword}">
+                  <input type="password" id="confirmPassword" th:field="*{confirmPassword}" placeholder="Confirm your password">
                   <span th:errors="*{confirmPassword}"></span>
               </div>
               <button type="submit" class="register-btn">Register Restaurant</button>

@@ -27,7 +27,7 @@
 
           .register-container {
               background: rgba(255, 255, 255, 0.8);
-              padding: 20px;
+              padding: 15px;
               border-radius: 15px;
               box-shadow: 0 0 20px rgba(0,0,0,0.2);
               width: 100%;
@@ -38,24 +38,24 @@
           .register-container h2 {
               text-align: center;
               color: #2d3436;
-              margin-bottom: 15px;
+              margin-bottom: 12px;
               font-size: 1.8rem;
           }
 
           .form-group {
-              margin-bottom: 10px;
+              margin-bottom: 8px;
           }
 
           .form-group label {
               display: block;
-              margin-bottom: 3px;
+              margin-bottom: 2px;
               color: #2d3436;
               font-weight: 500;
           }
 
           .form-group input {
               width: 100%;
-              padding: 6px;
+              padding: 5px;
               border: 1px solid #ddd;
               border-radius: 8px;
               font-size: 0.9rem;
@@ -64,12 +64,13 @@
 
           .form-group textarea {
               width: 100%;
-              padding: 6px;
+              padding: 5px;
               border: 1px solid #ddd;
               border-radius: 8px;
               font-size: 0.9rem;
               transition: 0.3s;
               resize: vertical;
+              height: 60px;
           }
 
           .form-group input:focus {
@@ -88,7 +89,7 @@
               font-size: 1rem;
               cursor: pointer;
               transition: 0.3s;
-              margin-top: 10px;
+              margin-top: 8px;
           }
 
           .register-btn:hover {
@@ -98,8 +99,8 @@
 
           .restaurant-link {
               text-align: center;
-              margin-top: 10px;
-              padding-top: 10px;
+              margin-top: 8px;
+              padding-top: 8px;
               border-top: 1px solid #ddd;
           }
 
@@ -152,34 +153,34 @@
           <form action="/customer/register" method="post" th:object="${customer}">
               <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" id="name" th:field="*{name}">
+                  <input type="text" id="name" th:field="*{name}" placeholder="Enter your full name">
                   <span th:errors="*{name}"></span>
               </div>
               <div class="form-group">
                   <label for="email">Email Address</label>
-                  <input type="email" id="email" th:field="*{email}">
+                  <input type="email" id="email" th:field="*{email}" placeholder="Enter your email address">
                   <span th:errors="*{email}"></span>
               </div>
               <div class="form-group">
                   <label for="phone">Phone Number</label>
-                  <input type="text" id="mobile" th:field="*{mobile}">
+                  <input type="text" id="mobile" th:field="*{mobile}" placeholder="Enter your phone number">
                   <span th:errors="*{mobile}"></span>
               </div>
 
               <div class="form-group">
                 <label for="address">Address</label>
-                <textarea id="address" rows="3" th:field="*{address}" ></textarea>
+                <textarea id="address" rows="3" th:field="*{address}" placeholder="Enter your full address"></textarea>
                 <span th:errors="*{address}"></span>
             </div>
 
               <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" id="password" th:field="*{password}">
+                  <input type="password" id="password" th:field="*{password}" placeholder="Enter your password">
                   <span th:errors="*{password}"></span>
               </div>
               <div class="form-group">
                   <label for="confirm-password">Confirm Password</label>
-                  <input type="password" id="confirmPassword"  th:field="*{confirmPassword}">
+                  <input type="password" id="confirmPassword"  th:field="*{confirmPassword}" placeholder="Confirm your password">
                   <span th:errors="*{confirmPassword}"></span>
               </div>
               <button type="submit" class="register-btn">Create Account</button>

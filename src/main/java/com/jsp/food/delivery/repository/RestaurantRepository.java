@@ -9,5 +9,9 @@ public interface RestaurantRepository  extends JpaRepository<Restaurant, Integer
     boolean existsByEmail(String email);
 
     boolean existsByMobile(Long mobile);
+
+    Restaurant findByMobile(Long mobile);
+
+    Restaurant findByEmail(String email);
     
 }

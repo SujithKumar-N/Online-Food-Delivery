@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import com.jsp.food.delivery.dto.Restaurant;
+import com.jsp.food.delivery.helper.AES;
 import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
 import com.jsp.food.delivery.repository.RestaurantRepository;
 
 import jakarta.servlet.http.HttpSession;
-
 
 @Service
 public class RestaurantService {
@@ -33,7 +33,7 @@ public class RestaurantService {
     }
 
     public String register(Restaurant restaurant, BindingResult result, HttpSession session) {
-                if (!restaurant.getPassword().equals(restaurant.getConfirmPassword())) {
+        if (!restaurant.getPassword().equals(restaurant.getConfirmPassword())) {
             result.rejectValue("confirmPassword", "error.confirmPassword",
                     "Password and Confirm Password must be same");
         }
@@ -54,6 +54,7 @@ public class RestaurantService {
         } else {
             restaurant.setOtp(new Random().nextInt(1000, 9999));
             restaurant.setVerified(false);
+            restaurant.setPassword(AES.encrypt(restaurant.getPassword()));
             restaurant.setRegistrationDate(LocalDateTime.now());
             restaurantRepository.save(restaurant);
             System.err.println(restaurant.getOtp());
@@ -88,5 +89,14 @@ public class RestaurantService {
         session.setAttribute("success", "OTP has been re-sent to your email");
         return "redirect:/restaurant/otp/" + restaurant.getId();
     }
-    
+
+    public String home(HttpSession session) {
+        if(session.getAttribute("restaurant") != null) {
+            return "restaurant-home";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
 }

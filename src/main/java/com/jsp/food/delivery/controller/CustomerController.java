@@ -49,4 +49,9 @@ public class CustomerController {
         return customerService.resendOtp(id, session);
     }
 
+    @GetMapping("/home")
+    public String loadHome(HttpSession session) {
+        return customerService.home(session);
+    }
+
 }

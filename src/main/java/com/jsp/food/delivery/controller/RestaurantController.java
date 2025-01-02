@@ -48,4 +48,9 @@ public class RestaurantController {
     public String resendOtp(@PathVariable("id") int id, HttpSession session) {
         return restaurantService.resendOtp(id, session);
     }
+
+    @GetMapping("/home")
+    public String loadHome(HttpSession session) {
+        return restaurantService.home(session);
+    }
 }

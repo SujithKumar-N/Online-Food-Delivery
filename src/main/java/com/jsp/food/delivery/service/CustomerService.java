@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import com.jsp.food.delivery.dto.Customer;
+import com.jsp.food.delivery.helper.AES;
 import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
 import com.jsp.food.delivery.repository.RestaurantRepository;
@@ -55,6 +56,7 @@ public class CustomerService {
         } else {
             customer.setOtp(new Random().nextInt(1000, 9999));
             customer.setVerified(false);
+            customer.setPassword(AES.encrypt(customer.getPassword()));
             customer.setRegistrationDate(LocalDateTime.now());
             customerRepository.save(customer);
             System.err.println(customer.getOtp());
@@ -88,6 +90,15 @@ public class CustomerService {
         emailSender.sendOtp(customer);
         session.setAttribute("success", "OTP has been re-sent to your email");
         return "redirect:/customer/otp/" + customer.getId();
+    }
+
+    public String home(HttpSession session) {
+        if(session.getAttribute("customer") != null) {
+            return "customer-home";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/";
+        }
     }
 
 }
