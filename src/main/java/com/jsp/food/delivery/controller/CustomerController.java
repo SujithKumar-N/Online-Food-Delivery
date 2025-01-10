@@ -54,4 +54,9 @@ public class CustomerController {
         return customerService.home(session);
     }
 
+    @GetMapping("/view-restaurants")
+    public String loadRestaurants(HttpSession session, ModelMap map) {
+        return customerService.viewRestaurants(session, map);
+    }
+
 }

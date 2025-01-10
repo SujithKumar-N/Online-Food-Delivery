@@ -38,16 +38,16 @@ public class RestaurantService {
                     "Password and Confirm Password must be same");
         }
 
-        if (customerRepository.existsByEmail(restaurant.getEmail())
-                || restaurantRepository.existsByEmail(restaurant.getEmail())) {
-            result.rejectValue("email", "error.email", "Email already exists");
+        // if (customerRepository.existsByEmail(restaurant.getEmail())
+        //         || restaurantRepository.existsByEmail(restaurant.getEmail())) {
+        //     result.rejectValue("email", "error.email", "Email already exists");
 
-        }
+        // }
 
-        if (customerRepository.existsByMobile(restaurant.getMobile())
-                || restaurantRepository.existsByMobile(restaurant.getMobile())) {
-            result.rejectValue("mobile", "error.mobile", "Mobile already exists");
-        }
+        // if (customerRepository.existsByMobile(restaurant.getMobile())
+        //         || restaurantRepository.existsByMobile(restaurant.getMobile())) {
+        //     result.rejectValue("mobile", "error.mobile", "Mobile already exists");
+        // }
 
         if (result.hasErrors()) {
             return "restaurant-register";
@@ -58,7 +58,7 @@ public class RestaurantService {
             restaurant.setRegistrationDate(LocalDateTime.now());
             restaurantRepository.save(restaurant);
             System.err.println(restaurant.getOtp());
-            emailSender.sendOtp(restaurant);
+            // emailSender.sendOtp(restaurant);
             session.setAttribute("success", "OTP has been sent to your email");
             return "redirect:/restaurant/otp/" + restaurant.getId();
         }
@@ -85,7 +85,7 @@ public class RestaurantService {
         restaurant.setRegistrationDate(LocalDateTime.now());
         restaurantRepository.save(restaurant);
         System.err.println(restaurant.getOtp());
-        emailSender.sendOtp(restaurant);
+        // emailSender.sendOtp(restaurant);
         session.setAttribute("success", "OTP has been re-sent to your email");
         return "redirect:/restaurant/otp/" + restaurant.getId();
     }

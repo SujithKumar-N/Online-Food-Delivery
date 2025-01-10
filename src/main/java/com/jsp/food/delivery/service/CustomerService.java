@@ -1,6 +1,7 @@
 package com.jsp.food.delivery.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import com.jsp.food.delivery.dto.Customer;
+import com.jsp.food.delivery.dto.Restaurant;
 import com.jsp.food.delivery.helper.AES;
 import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
@@ -40,16 +42,16 @@ public class CustomerService {
                     "Password and Confirm Password must be same");
         }
 
-        if (customerRepository.existsByEmail(customer.getEmail())
-                || restaurantRepository.existsByEmail(customer.getEmail())) {
-            result.rejectValue("email", "error.email", "Email already exists");
+        // if (customerRepository.existsByEmail(customer.getEmail())
+        //         || restaurantRepository.existsByEmail(customer.getEmail())) {
+        //     result.rejectValue("email", "error.email", "Email already exists");
 
-        }
+        // }
 
-        if (customerRepository.existsByMobile(customer.getMobile())
-                || restaurantRepository.existsByMobile(customer.getMobile())) {
-            result.rejectValue("mobile", "error.mobile", "Mobile already exists");
-        }
+        // if (customerRepository.existsByMobile(customer.getMobile())
+        //         || restaurantRepository.existsByMobile(customer.getMobile())) {
+        //     result.rejectValue("mobile", "error.mobile", "Mobile already exists");
+        // }
 
         if (result.hasErrors()) {
             return "customer-register";
@@ -60,7 +62,7 @@ public class CustomerService {
             customer.setRegistrationDate(LocalDateTime.now());
             customerRepository.save(customer);
             System.err.println(customer.getOtp());
-            emailSender.sendOtp(customer);
+            // emailSender.sendOtp(customer);
             session.setAttribute("success", "OTP has been sent to your email");
             return "redirect:/customer/otp/" + customer.getId();
         }
@@ -87,7 +89,7 @@ public class CustomerService {
         customer.setRegistrationDate(LocalDateTime.now());
         customerRepository.save(customer);
         System.err.println(customer.getOtp());
-        emailSender.sendOtp(customer);
+        // emailSender.sendOtp(customer);
         session.setAttribute("success", "OTP has been re-sent to your email");
         return "redirect:/customer/otp/" + customer.getId();
     }
@@ -95,6 +97,23 @@ public class CustomerService {
     public String home(HttpSession session) {
         if(session.getAttribute("customer") != null) {
             return "customer-home";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/";
+        }
+    }
+
+    public String viewRestaurants(HttpSession session, ModelMap map) {
+        if(session.getAttribute("customer") != null) {
+           List<Restaurant> restaurants = restaurantRepository.findAll();
+            map.put("restaurants", restaurants);
+            if(restaurants.isEmpty()){
+                session.setAttribute("error", "No restaurants found");
+                return "customer-home";
+            }
+            else{
+                return "customer-view-restaurants";
+            }
         } else {
             session.setAttribute("error", "Please login to continue");
             return "redirect:/";

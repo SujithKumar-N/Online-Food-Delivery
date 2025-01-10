@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Home</title>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff4757;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            background: #ff4757;
+            border: 2px solid #ff4757;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ff6b81;
+            border-color: #ff6b81;
+        }
+
         .message {
             position: fixed;
             top: 80px;
@@ -22,20 +71,156 @@
         .message:not(:empty) {
             display: block;
         }
-    </style>
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeInDown 1s ease;
+        }
+
+        .welcome-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        .features {
+            padding: 80px 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            background: rgba(248, 249, 250, 0.1);
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #ffffff;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .welcome-section h2 {
+                font-size: 2rem;
+            }
+
+            .features {
+                padding: 40px 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .welcome-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
-
     <div class="message" th:if="${session.success != null or session.error != null}">
         <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
         <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
         <th:block th:text="${@messageRemover.remove()}"></th:block>
     </div>
 
-    <h1>Customer Home</h1>
-    <a href="/logout">Logout</a>
+    <div class="header">
+        <div class="logo">FoodieExpress</div>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h2>Hungry? We've got you covered!</h2>
+            <p>Explore restaurants and order your favorite meals right at your doorstep.</p>
+            <div>
+                <a href="/customer/view-restaurants" class="btn">View Restaurants</a>
+                <a href="/customer/order" class="btn">Order Food</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>Browse Restaurants</h3>
+                <p>Explore a wide variety of restaurants and cuisines in your area.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Quick Ordering</h3>
+                <p>Easy and secure ordering process with multiple payment options.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Track Orders</h3>
+                <p>Real-time tracking of your food delivery status.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Special Offers</h3>
+                <p>Get access to exclusive deals and discounts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Loyalty Rewards</h3>
+                <p>Earn points with every order and redeem them for free meals.</p>
+            </div>
+            <div class="feature-card">
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer service to assist you anytime.</p>
+            </div>
+
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

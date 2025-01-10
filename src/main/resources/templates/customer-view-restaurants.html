@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Restaurants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff4757;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            animation: fadeInDown 1s ease;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+        }
+
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .restaurant-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .restaurant-card h3 {
+            color: #ff4757;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-info {
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+
+        .restaurant-info strong {
+            color: #ff4757;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 10px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #ff6b81;
+            transform: translateY(-2px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
+
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">FoodieExpress</div>
+        <a href="/customer/home" class="btn">Back to Home</a>
+    </div>
+
+    <div class="container">
+        <h2 class="page-title">Available Restaurants</h2>
+        
+        <div class="restaurants-grid">
+            <div class="restaurant-card" th:each="restaurant : ${restaurants}">
+                <h3 th:text="${restaurant.restaurantName}"></h3>
+                <div class="restaurant-info">
+                    <p><strong>Name:</strong> <span th:text="${restaurant.name}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${restaurant.email}"></span></p>
+                    <p><strong>Mobile:</strong> <span th:text="${restaurant.mobile}"></span></p>
+                    <p><strong>Address:</strong> <span th:text="${restaurant.address}"></span></p>
+                </div>
+                <div th:if="${restaurant.verified}" class="verified-badge">
+                    Verified
+                </div>
+                <a href="#" class="btn">View Menu</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
