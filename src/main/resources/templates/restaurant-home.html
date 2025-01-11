@@ -4,8 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Home</title>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff4757;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            background: #ff4757;
+            border: 2px solid #ff4757;
+            color: white;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ff6b81;
+            border-color: #ff6b81;
+        }
+
         .message {
             position: fixed;
             top: 80px;
@@ -23,19 +71,76 @@
             display: block;
         }
 
-    </style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        .welcome-section {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeInDown 1s ease;
+        }
+
+        .welcome-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .welcome-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-
     <div class="message" th:if="${session.success != null or session.error != null}">
         <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
         <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
         <th:block th:text="${@messageRemover.remove()}"></th:block>
     </div>
 
-    <h1>Restaurant Home</h1>
-    <a href="/logout">Logout</a>
+    <div class="header">
+        <div class="logo">FoodieExpress</div>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h2>Restaurant Management Dashboard</h2>
+            <p>Manage your restaurant's menu and categories</p>
+            <div>
+                <a href="/restaurant/add-category" class="btn">Add Food Category</a>
+                <a href="/restaurant/manage-categories" class="btn">Manage Categories</a>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

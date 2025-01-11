@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jsp.food.delivery.dto.FoodCategory;
 import com.jsp.food.delivery.dto.Restaurant;
 import com.jsp.food.delivery.service.RestaurantService;
 
@@ -52,5 +53,20 @@ public class RestaurantController {
     @GetMapping("/home")
     public String loadHome(HttpSession session) {
         return restaurantService.home(session);
+    }
+    
+    @GetMapping("/add-category")
+    public String addCategory(ModelMap map) {
+        return "add-category";
+    }
+
+    @PostMapping("/add-category")
+    public String addCategory(FoodCategory category, HttpSession session) {
+        return restaurantService.addCategory(category, session);
+    }
+
+    @GetMapping("/manage-category")
+    public String manageCategory(HttpSession session, ModelMap map){
+        return restaurantService.manageCategory(session, map);
     }
 }

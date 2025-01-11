@@ -1,16 +1,20 @@
 package com.jsp.food.delivery.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+
+import com.jsp.food.delivery.dto.FoodCategory;
 import com.jsp.food.delivery.dto.Restaurant;
 import com.jsp.food.delivery.helper.AES;
 import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
+import com.jsp.food.delivery.repository.FoodCategoryRepository;
 import com.jsp.food.delivery.repository.RestaurantRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +27,9 @@ public class RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    FoodCategoryRepository foodCategoryRepository;
 
     @Autowired
     MyEmailSender emailSender;
@@ -39,14 +46,14 @@ public class RestaurantService {
         }
 
         // if (customerRepository.existsByEmail(restaurant.getEmail())
-        //         || restaurantRepository.existsByEmail(restaurant.getEmail())) {
-        //     result.rejectValue("email", "error.email", "Email already exists");
+        // || restaurantRepository.existsByEmail(restaurant.getEmail())) {
+        // result.rejectValue("email", "error.email", "Email already exists");
 
         // }
 
         // if (customerRepository.existsByMobile(restaurant.getMobile())
-        //         || restaurantRepository.existsByMobile(restaurant.getMobile())) {
-        //     result.rejectValue("mobile", "error.mobile", "Mobile already exists");
+        // || restaurantRepository.existsByMobile(restaurant.getMobile())) {
+        // result.rejectValue("mobile", "error.mobile", "Mobile already exists");
         // }
 
         if (result.hasErrors()) {
@@ -91,8 +98,44 @@ public class RestaurantService {
     }
 
     public String home(HttpSession session) {
-        if(session.getAttribute("restaurant") != null) {
+        if (session.getAttribute("restaurant") != null) {
             return "restaurant-home";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String addCategory(FoodCategory category, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            Restaurant restaurant = (Restaurant) session.getAttribute("restaurant");
+            List<FoodCategory> foodCategories = restaurantRepository.findById(restaurant.getId())
+                    .orElseThrow(() -> new RuntimeException("Restaurant not found"))
+                    .getFoodCategories();
+            category.setRestaurant(restaurant);
+            foodCategories.add(category);
+            restaurantRepository.save(restaurant);
+            foodCategoryRepository.save(category);
+            session.setAttribute("success", "Category added successfully");
+            return "redirect:/restaurant/home";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String manageCategory(HttpSession session, ModelMap map) {
+        if(session.getAttribute("restaurant") != null) {
+            Restaurant restaurant = (Restaurant) session.getAttribute("restaurant");
+            List<FoodCategory> foodCategory = foodCategoryRepository.findByRestaurant(restaurant);
+            if(foodCategory.isEmpty()) {
+                session.setAttribute("error", "No Food Category added yet");
+                return "redirect:/restaurant/home";
+            } else {
+                map.put("foodCategory", foodCategory);
+                return "food-category";
+            }
+            
         } else {
             session.setAttribute("error", "Please login to continue");
             return "redirect:/login";
