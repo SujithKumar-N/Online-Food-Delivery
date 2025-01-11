@@ -10,5 +10,7 @@ import com.jsp.food.delivery.dto.Restaurant;
 public interface FoodCategoryRepository extends JpaRepository<FoodCategory, Integer> {
 
     List<FoodCategory> findByRestaurant(Restaurant restaurant);
+
+    List<FoodCategory> findAllByRestaurantId(Integer id);
     
 }

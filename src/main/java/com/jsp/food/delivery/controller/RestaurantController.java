@@ -65,8 +65,23 @@ public class RestaurantController {
         return restaurantService.addCategory(category, session);
     }
 
-    @GetMapping("/manage-category")
+    @GetMapping("/manage-categories")
     public String manageCategory(HttpSession session, ModelMap map){
         return restaurantService.manageCategory(session, map);
+    }
+
+    @GetMapping("/delete-category/{id}")
+    public String deleteCategory(@PathVariable("id") int id, HttpSession session) {
+        return restaurantService.deleteCategory(id, session);
+    }
+
+    @GetMapping("/edit-category/{id}")
+    public String editCategory(@PathVariable("id") int id, HttpSession session, ModelMap map) {
+        return restaurantService.editCategory(id,session, map);
+    }
+
+    @PostMapping("/edit-category")
+    public String editCategory(FoodCategory foodCategory, HttpSession session) {
+        return restaurantService.editCategory(foodCategory, session);
     }
 }

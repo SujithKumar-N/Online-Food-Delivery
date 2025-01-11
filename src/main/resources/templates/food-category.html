@@ -1,11 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Category</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff4757;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .message:not(:empty) {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background-color: rgba(255, 71, 87, 0.8);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .btn-add {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-view{
+            background-color: #9b59b6;;
+            color: white;
+        }
+
+        .btn-home {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            background: #ff4757;
+            border: 2px solid #ff4757;
+            color: white;
+            margin: 0 10px;
+        }
+
+        .btn-home:hover {
+            transform: scale(1.05);
+            background: #ff6b81;
+            border-color: #ff6b81;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <div class="header">
+        <div class="logo">FoodieExpress</div>
+        <a href="/restaurant/home"><button class="btn btn-home">Home</button></a>
+    </div>
+    <div class="container">
+        
+        <div class="message" th:if="${session.success != null or session.error != null}">
+            <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
+            <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
+            <th:block th:text="${@messageRemover.remove()}"></th:block>
+        </div>
     
+        <h2>Restaurant Categories</h2>
+        <div class="actions">
+            <a href="/restaurant/add-category"><button class="btn btn-add">Add Category</button></a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Category Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${foodCategories}">
+                    <td th:text="${category.categoryName}"></td>
+                    <td th:text="${category.description}"></td>
+                    <td th:if="${category.isActive}">Available</td>
+                    <td th:if="!${category.isActive}">Not Available</td>
+                    <td>
+                        <a th:href="'/restaurant/edit-category/'+${category.categoryId}"><button
+                                class="btn btn-edit">Edit</button></a>
+                        <a th:href="'/restaurant/delete-category/'+${category.categoryId}"><button
+                                class="btn btn-delete">Delete</button></a>
+                        <a href="#"><button class="btn btn-add">Add Food Item</button></a>
+                        <a href="#"><button class="btn btn-view">View Food Items</button></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const message = document.querySelector('.message');
+            if (message && message.style.display !== 'none') {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 700);
+            }
+        });
+    </script>
 </body>
+
 </html>

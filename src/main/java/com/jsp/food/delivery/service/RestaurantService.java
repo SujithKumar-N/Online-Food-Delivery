@@ -125,17 +125,51 @@ public class RestaurantService {
     }
 
     public String manageCategory(HttpSession session, ModelMap map) {
-        if(session.getAttribute("restaurant") != null) {
+        if (session.getAttribute("restaurant") != null) {
             Restaurant restaurant = (Restaurant) session.getAttribute("restaurant");
-            List<FoodCategory> foodCategory = foodCategoryRepository.findByRestaurant(restaurant);
-            if(foodCategory.isEmpty()) {
-                session.setAttribute("error", "No Food Category added yet");
+            List<FoodCategory> foodCategories = foodCategoryRepository.findAllByRestaurantId(restaurant.getId());
+            if(foodCategories.isEmpty()){
+                session.setAttribute("error", "No categories found");
                 return "redirect:/restaurant/home";
             } else {
-                map.put("foodCategory", foodCategory);
+                map.put("foodCategories", foodCategories);
                 return "food-category";
             }
-            
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        } 
+    }
+
+    public String deleteCategory(int id, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow();
+            foodCategoryRepository.delete(foodCategory);
+            session.setAttribute("success", "Category deleted successfully");
+            return "redirect:/restaurant/manage-categories";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String editCategory(int id, HttpSession session, ModelMap map) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow();
+            map.put("foodCategory", foodCategory);
+            return "edit-food-category";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String editCategory(FoodCategory foodCategory, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            foodCategory.setRestaurant((Restaurant) session.getAttribute("restaurant"));
+            foodCategoryRepository.save(foodCategory);
+            session.setAttribute("success", "Category updated successfully");
+            return "redirect:/restaurant/manage-categories";
         } else {
             session.setAttribute("error", "Please login to continue");
             return "redirect:/login";
