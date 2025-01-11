@@ -186,14 +186,12 @@
         <div class="logo">FoodieExpress</div>
         <a href="/restaurant/home"><button class="btn btn-home">Home</button></a>
     </div>
-    <div class="container">
-        
-        <div class="message" th:if="${session.success != null or session.error != null}">
-            <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
-            <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
-            <th:block th:text="${@messageRemover.remove()}"></th:block>
-        </div>
-    
+    <div class="message" th:if="${session.success != null or session.error != null}">
+        <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
+        <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
+        <th:block th:text="${@messageRemover.remove()}"></th:block>
+    </div>
+    <div class="container">    
         <h2>Restaurant Categories</h2>
         <div class="actions">
             <a href="/restaurant/add-category"><button class="btn btn-add">Add Category</button></a>
@@ -232,7 +230,7 @@
             if (message && message.style.display !== 'none') {
                 setTimeout(function() {
                     message.style.display = 'none';
-                }, 700);
+                }, 1500);
             }
         });
     </script>
