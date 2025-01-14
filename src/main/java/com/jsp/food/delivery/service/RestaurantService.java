@@ -220,6 +220,35 @@ public class RestaurantService {
             return "redirect:/login";
         }
     }
+
+    public String viewItems(int id, HttpSession session, ModelMap map) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow();
+            List<FoodItem> foodItems = foodItemRepository.findByCategory(foodCategory);
+            if(foodItems.isEmpty()) {
+                session.setAttribute("error", "No items found");
+                return "redirect:/restaurant/manage-categories";
+            } else {
+                map.put("foodItems", foodItems);
+                return "view-food-items";
+            }
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String deleteItem(int id, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodItem foodItem = foodItemRepository.findById(id).orElseThrow();
+            foodItemRepository.delete(foodItem);
+            session.setAttribute("success", "Item deleted successfully");
+            return "redirect:/restaurant/view-items/"+foodItem.getCategory().getCategoryId();
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
 }
 
 

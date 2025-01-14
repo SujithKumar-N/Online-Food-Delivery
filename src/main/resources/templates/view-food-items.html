@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Food Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff4757;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInDown 1s ease;
+        }
+        .message {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .message:not(:empty) {
+            display: block;
+        }
+
+
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            animation: fadeInDown 1s ease;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            color: #2d3436;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #636e72;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #ff6b81;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: #2ecc71;
+            margin-right: 10px;
+        }
+
+        .btn-edit:hover {
+            background: #27ae60;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .btn-add {
+            background: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .btn-add:hover {
+            background: #2980b9;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">FoodieExpress</div>
+        <a href="/restaurant/home" class="btn">Home</a>
+    </div>
+    <div class="message" th:if="${session.success != null or session.error != null}">
+        <h3 th:text="${session.success}" style="color: #28a745; margin-bottom: 10px;"></h3>
+        <h3 th:text="${session.error}" style="color: #ff4757; margin-bottom: 10px;"></h3>
+        <th:block th:text="${@messageRemover.remove()}"></th:block>
+    </div>
+    <div class="container">
+        <h2>Food Items</h2>
+        <div class="row">
+            <div class="card" th:each="item : ${foodItems}">
+                <img th:src="${item.imageUrl}" class="card-img-top" alt="Food Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${item.name}"></h5>
+                    <p class="card-text" th:text="${item.description}"></p>
+                    <p class="card-text">Price: ₹<span th:text="${item.price}"></span></p>
+                    <div class="card-actions">
+                        <a th:href="'/restaurant/edit-food-item/'+${item.itemId}" class="btn btn-edit">Edit</a>
+                        <a th:href="'/restaurant/delete-item/'+${item.itemId}" class="btn btn-delete">Remove</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="/restaurant/manage-categories" class="btn">Back to Categories</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const message = document.querySelector('.message');
+            if (message && message.style.display !== 'none') {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

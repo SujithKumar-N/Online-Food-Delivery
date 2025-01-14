@@ -96,4 +96,15 @@ public class RestaurantController {
     public String addItem(@RequestParam MultipartFile image, FoodItem foodItem, HttpSession session) {
         return restaurantService.addItem(image,foodItem, session);
     }
+
+    @GetMapping("/view-items/{id}")
+    public String viewItem(@PathVariable("id") int id, HttpSession session, ModelMap map) {
+        return restaurantService.viewItems(id, session, map);
+    }
+
+    @GetMapping("/delete-item/{id}")
+    public String deleteItem(@PathVariable("id") int id, HttpSession session) {
+        return restaurantService.deleteItem(id, session);
+    }
+    
 }
