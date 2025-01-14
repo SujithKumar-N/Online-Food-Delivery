@@ -1,11 +1,11 @@
 package com.jsp.food.delivery.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -60,11 +60,6 @@ public class Restaurant {
     private String address;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FoodCategory> foodCategories; // One Restaurant can have many FoodCategories
+    private List<FoodCategory> foodCategories = new ArrayList<>(); // One Restaurant can have many FoodCategories
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<FoodItem> foodItems; // One Restaurant can have many FoodItems
-
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders; // One Restaurant can have many Orders
 }

@@ -1,8 +1,10 @@
 package com.jsp.food.delivery.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,6 +58,6 @@ public class Customer {
     @Size(min = 5, max = 60, message = "* Address must be between 5 and 60 characters")
     private String address;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders; // One Customer can place many Orders
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();; // One Customer can place many Orders
 }

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jsp.food.delivery.dto.FoodCategory;
+import com.jsp.food.delivery.dto.FoodItem;
 import com.jsp.food.delivery.dto.Restaurant;
 import com.jsp.food.delivery.service.RestaurantService;
 
@@ -83,5 +85,15 @@ public class RestaurantController {
     @PostMapping("/edit-category")
     public String editCategory(FoodCategory foodCategory, HttpSession session) {
         return restaurantService.editCategory(foodCategory, session);
+    }
+
+    @GetMapping("/add-item/{id}")
+    public String addItem(@PathVariable("id") int id, HttpSession session) {
+        return restaurantService.addItem(id, session);
+    }
+
+    @PostMapping("/add-item")
+    public String addItem(@RequestParam MultipartFile image, FoodItem foodItem, HttpSession session) {
+        return restaurantService.addItem(image,foodItem, session);
     }
 }

@@ -216,7 +216,7 @@
                                 class="btn btn-edit">Edit</button></a>
                         <a th:href="'/restaurant/delete-category/'+${category.categoryId}"><button
                                 class="btn btn-delete">Delete</button></a>
-                        <a href="#"><button class="btn btn-add">Add Food Item</button></a>
+                        <a th:href="'/restaurant/add-item/'+${category.categoryId}"><button class="btn btn-add">Add Food Item</button></a>
                         <a href="#"><button class="btn btn-view">View Food Items</button></a>
                     </td>
                 </tr>

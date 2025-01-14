@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.Data;
 
 @Entity
@@ -31,4 +30,6 @@ public class FoodItem {
     private String description;
     private Double price;
     private Boolean availability;
+
+    private String imageUrl;
 }

@@ -8,16 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jsp.food.delivery.dto.FoodCategory;
+import com.jsp.food.delivery.dto.FoodItem;
 import com.jsp.food.delivery.dto.Restaurant;
 import com.jsp.food.delivery.helper.AES;
+import com.jsp.food.delivery.helper.CloudinaryHelper;
 import com.jsp.food.delivery.helper.MyEmailSender;
 import com.jsp.food.delivery.repository.CustomerRepository;
 import com.jsp.food.delivery.repository.FoodCategoryRepository;
+import com.jsp.food.delivery.repository.FoodItemRepository;
 import com.jsp.food.delivery.repository.RestaurantRepository;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Service
 public class RestaurantService {
@@ -32,7 +37,13 @@ public class RestaurantService {
     FoodCategoryRepository foodCategoryRepository;
 
     @Autowired
+    FoodItemRepository foodItemRepository;
+
+    @Autowired
     MyEmailSender emailSender;
+
+    @Autowired
+    CloudinaryHelper cloudinaryHelper;
 
     public String register(Restaurant restaurant, ModelMap map) {
         map.put("restaurant", restaurant);
@@ -128,7 +139,7 @@ public class RestaurantService {
         if (session.getAttribute("restaurant") != null) {
             Restaurant restaurant = (Restaurant) session.getAttribute("restaurant");
             List<FoodCategory> foodCategories = foodCategoryRepository.findAllByRestaurantId(restaurant.getId());
-            if(foodCategories.isEmpty()){
+            if (foodCategories.isEmpty()) {
                 session.setAttribute("error", "No categories found");
                 return "redirect:/restaurant/home";
             } else {
@@ -138,13 +149,20 @@ public class RestaurantService {
         } else {
             session.setAttribute("error", "Please login to continue");
             return "redirect:/login";
-        } 
+        }
     }
 
+    @Transactional
     public String deleteCategory(int id, HttpSession session) {
         if (session.getAttribute("restaurant") != null) {
-            FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow();
+            // Find the category by ID
+            FoodCategory foodCategory = foodCategoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+            
+            List<FoodItem> foodItems = foodItemRepository.findByCategory(foodCategory);
+            foodItemRepository.deleteAll(foodItems);
             foodCategoryRepository.delete(foodCategory);
+    
             session.setAttribute("success", "Category deleted successfully");
             return "redirect:/restaurant/manage-categories";
         } else {
@@ -176,4 +194,32 @@ public class RestaurantService {
         }
     }
 
+    public String addItem(int id, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow();
+            session.setAttribute("foodCategory", foodCategory);
+            return "add-food-item";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
+    public String addItem(MultipartFile image, FoodItem foodItem, HttpSession session) {
+        if (session.getAttribute("restaurant") != null) {
+            FoodCategory foodCategory = (FoodCategory) session.getAttribute("foodCategory");
+            foodItem.setCategory(foodCategory);
+            foodItem.setRestaurant((Restaurant) session.getAttribute("restaurant"));
+            System.out.println(cloudinaryHelper.saveImage(image));
+            foodItem.setImageUrl(cloudinaryHelper.saveImage(image));
+            foodItemRepository.save(foodItem);
+            session.setAttribute("success", "Item added successfully");
+            return "redirect:/restaurant/manage-categories";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
 }
+
+
