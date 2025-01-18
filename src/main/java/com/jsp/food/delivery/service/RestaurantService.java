@@ -210,7 +210,6 @@ public class RestaurantService {
             FoodCategory foodCategory = (FoodCategory) session.getAttribute("foodCategory");
             foodItem.setCategory(foodCategory);
             foodItem.setRestaurant((Restaurant) session.getAttribute("restaurant"));
-            System.out.println(cloudinaryHelper.saveImage(image));
             foodItem.setImageUrl(cloudinaryHelper.saveImage(image));
             foodItemRepository.save(foodItem);
             session.setAttribute("success", "Item added successfully");
@@ -249,6 +248,24 @@ public class RestaurantService {
             return "redirect:/login";
         }
     }
+
+    public String viewMenu(HttpSession session, ModelMap map) {
+        if (session.getAttribute("restaurant") != null) {
+            Restaurant restaurant = (Restaurant) session.getAttribute("restaurant");
+            List<FoodItem> foodItems = foodItemRepository.findByRestaurant(restaurant);
+            if(foodItems.isEmpty()){
+                session.setAttribute("error", "No items found");
+                return "redirect:/restaurant/view-menu";
+            } else {
+                map.put("foodItems", foodItems);
+            }
+            return "view-menu";
+        } else {
+            session.setAttribute("error", "Please login to continue");
+            return "redirect:/login";
+        }
+    }
+
 }
 
 

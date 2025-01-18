@@ -106,5 +106,9 @@ public class RestaurantController {
     public String deleteItem(@PathVariable("id") int id, HttpSession session) {
         return restaurantService.deleteItem(id, session);
     }
-    
+
+    @GetMapping("/view-menu")
+    public String viewMenu(HttpSession session, ModelMap map) {
+        return restaurantService.viewMenu(session, map);
+    }
 }

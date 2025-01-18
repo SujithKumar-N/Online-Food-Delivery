@@ -215,7 +215,6 @@
                     <p class="card-text" th:text="${item.description}"></p>
                     <p class="card-text">Price: ₹<span th:text="${item.price}"></span></p>
                     <div class="card-actions">
-                        <a th:href="'/restaurant/edit-food-item/'+${item.itemId}" class="btn btn-edit">Edit</a>
                         <a th:href="'/restaurant/delete-item/'+${item.itemId}" class="btn btn-delete">Remove</a>
                     </div>
                 </div>
